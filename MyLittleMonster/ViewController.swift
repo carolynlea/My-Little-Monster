@@ -18,6 +18,10 @@ class ViewController: UIViewController
     @IBOutlet weak var penalty1Image: UIImageView!
     @IBOutlet weak var penalty2Image: UIImageView!
     @IBOutlet weak var penalty3Image: UIImageView!
+    @IBOutlet weak var chooseMonsterView: UIView!
+    @IBOutlet weak var chooseMonsterLabel: UILabel!
+    @IBOutlet weak var leftMonsterButton: UIButton!
+    @IBOutlet weak var rightMonsterButton: UIButton!
     
     @IBOutlet weak var restartButton: UIButton!
     let DIM_ALPHA: CGFloat = 0.2
@@ -28,6 +32,7 @@ class ViewController: UIViewController
     var timer: NSTimer!
     var monsterHappy = false
     var currentItem: UInt32 = 0
+    var userChoice: Int = 0
     
     var musicPlayer: AVAudioPlayer!
     var sfxBite: AVAudioPlayer!
@@ -39,7 +44,16 @@ class ViewController: UIViewController
     {
         super.viewDidLoad()
         
-        startGame()
+        monsterImg.hidden = true
+        foodImg.hidden = true
+        heartImg.hidden = true
+        penalty1Image.alpha = DIM_ALPHA
+        penalty2Image.alpha = DIM_ALPHA
+        penalty3Image.alpha = DIM_ALPHA
+        restartButton.hidden = true
+        
+        
+        //startGame()
     }
     
     func itemDroppedOnCharacter(notif: AnyObject)
@@ -191,8 +205,43 @@ class ViewController: UIViewController
     {
         penalties = 0
         monsterImg.playIdleAnimation()
+        //monsterImg.playLeftMonsterIdleAnimation()
+        //monsterImg.playRightMonsterIdleAnimation()
+        
         startGame()
     }
+    
+    func hidePanel()
+    {
+        chooseMonsterView.hidden = true
+        chooseMonsterLabel.hidden = true
+        leftMonsterButton.hidden = true
+        rightMonsterButton.hidden = true
+        
+        monsterImg.hidden = false
+        foodImg.hidden = false
+        heartImg.hidden = false
+        startGame()
+    }
+    
+    @IBAction func leftButtonTapped(sender: AnyObject)
+    {
+        hidePanel()
+        monsterImg.chosenMonster = 0
+        foodImg.image = UIImage(named: "food")
+        monsterImg.playLeftMonsterIdleAnimation()
+    }
+    
 
+    @IBAction func rightButtonTapped(sender: AnyObject)
+    {
+        hidePanel()
+        monsterImg.chosenMonster = 1
+        foodImg.image = UIImage(named: "fruit")
+        monsterImg.playRightMonsterIdleAnimation()
+    }
+    
+    
+    
 }
 
